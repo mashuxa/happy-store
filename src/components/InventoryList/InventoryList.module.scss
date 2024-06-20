@@ -1,0 +1,6 @@
+@use "src/styles/_colors";
+
+.wrapper {
+  border-top: 1px solid colors.$primary-color;
+  padding: 1rem;
+}

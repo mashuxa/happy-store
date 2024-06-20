@@ -1,0 +1,50 @@
+@use "src/styles/_colors";
+
+.wrapper {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  padding: 1rem;
+}
+
+.link {
+  padding: 0.5rem;
+  margin-left: auto;
+  color: colors.$secondary-color;
+  text-decoration: none;
+  font-size: 1rem;
+  font-weight: bold;
+  transition: 0.1s;
+  scale: 1;
+
+  &:hover {
+    color: colors.$primary-color;
+    scale: 1.1;
+  }
+}
+
+.button {
+  min-width: 6rem;
+  margin-left: 1rem;
+
+  &:first-child {
+    background-color: rgba(colors.$secondary-color, 0.5);
+    color: white;
+  }
+
+  &:last-child {
+    background-color: rgba(colors.$primary-color, 0.5);
+    color: colors.$secondary-color;
+  }
+}
+
+.btn-wrapper {
+  display: flex;
+  justify-content: flex-end;
+  padding: 1.5rem;
+  margin-left: auto;
+}
+
+.error {
+  color: red;
+}

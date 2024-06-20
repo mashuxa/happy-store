@@ -1,14 +1,24 @@
 import { API_URL } from "./constants";
 
-export const fetcher = async <T>(url: string, options: RequestInit): Promise<T> => {
-  const response: Response = await fetch(`${API_URL}/${url}`, options);
+const headers = { "Content-Type": "application/json" };
+export const fetcher = async <T>(url: string, options: RequestInit = {}): Promise<T> => {
+  const response: Response = await fetch(`${API_URL}/${url}`, {
+    ...options,
+    headers: {
+      ...headers,
+      ...options.headers,
+    },
+  });
 
   if (!response.ok) {
-    throw new Error("Server unavailable");
-  }
+    if (response.status > 499) {
+      throw new Error("Server error");
+    } else if (response.status > 399) {
+      const { error } = await response.json();
+      throw new Error(error);
+    }
 
-  if (response.ok && response.status > 499) {
-    throw new Error("Server error");
+    throw new Error("Server unavailable");
   }
 
   return await response.json();
