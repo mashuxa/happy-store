@@ -12,9 +12,13 @@ const InventoryPage: FC = () => {
   const [inventory, setInventory] = useState<InventoryItem[]>([]);
   const [error, setError] = useState("");
   const getInventoryData = useCallback(async () => {
-    const data = await getAllInventoryItems().catch(() => []);
+    try {
+      const data = await getAllInventoryItems();
 
-    setInventory(data);
+      setInventory(data);
+    } catch (e) {
+      // handle error
+    }
   }, []);
   const [isUpdating, setIsUpdating] = useState(false);
 
@@ -59,10 +63,10 @@ const InventoryPage: FC = () => {
       {error && <div className={styles.error}>{error}</div>}
       <InventoryList data={inventory} updateInventory={setInventory} />
       <div className={styles["btn-wrapper"]}>
-        <Button isLoading={isUpdating} onClick={handleReset} disabled={isUpdating} className={styles.button}>
+        <Button isLoading={isUpdating} onClick={handleReset} className={styles.button}>
           Reset
         </Button>
-        <Button isLoading={isUpdating} onClick={handleSave} disabled={isUpdating} className={styles.button}>
+        <Button isLoading={isUpdating} onClick={handleSave} className={styles.button}>
           Save
         </Button>
       </div>

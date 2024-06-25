@@ -1,4 +1,4 @@
-import { ChangeEvent, Dispatch, FC, FormEvent, SetStateAction, useCallback, useMemo, useState } from "react";
+import { ChangeEvent, Dispatch, FC, FormEvent, SetStateAction, useCallback, useState } from "react";
 import { useProducts } from "src/providers/ProductsProvider/ProductsProvider";
 import { InventoryItem } from "src/services/inventory/types";
 import { updateInventoryData } from "src/utils/updateInventoryData/updateInventoryData";
@@ -15,23 +15,21 @@ const InventoryControl: FC<InventoryControlProps> = ({ updateInventory, onFocus 
   const [selectedProduct, setSelectedProduct] = useState("");
   const [quantity, setQuantity] = useState(1);
 
-  const isDisabledSubmit = useMemo(() => selectedProduct === "", [selectedProduct]);
-
-  const handleChangeSelect = useCallback((event: ChangeEvent<HTMLSelectElement>) => {
-    setSelectedProduct(event.target.value);
+  const handleChangeSelect = useCallback(({ target }: ChangeEvent<HTMLSelectElement>) => {
+    setSelectedProduct(target.value);
   }, []);
-  const handleChangeNumber = useCallback((event: ChangeEvent<HTMLInputElement>) => {
-    setQuantity(Number(event.target.value));
+  const handleChangeNumber = useCallback(({ target }: ChangeEvent<HTMLInputElement>) => {
+    setQuantity(Number(target.value));
   }, []);
   const handleSubmit = useCallback(
-    (event: FormEvent<HTMLFormElement>) => {
-      event.preventDefault();
+    ({ preventDefault }: FormEvent<HTMLFormElement>) => {
+      preventDefault();
 
-      if (!isDisabledSubmit) {
+      if (selectedProduct) {
         updateInventory((prevState) => updateInventoryData(prevState, selectedProduct, quantity));
       }
     },
-    [isDisabledSubmit, quantity, selectedProduct, updateInventory],
+    [quantity, selectedProduct, updateInventory],
   );
 
   return (
@@ -49,7 +47,7 @@ const InventoryControl: FC<InventoryControlProps> = ({ updateInventory, onFocus 
         </select>
         <input className={styles.count} type="number" min={1} value={quantity} onChange={handleChangeNumber} />
       </div>
-      <Button disabled={isDisabledSubmit}>Add</Button>
+      <Button disabled={!selectedProduct}>Add</Button>
     </form>
   );
 };

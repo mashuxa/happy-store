@@ -15,10 +15,14 @@ const ProductContext = createContext<ProductsContextType>({
 export const ProductsProvider: FC<{ children: ReactNode }> = ({ children }) => {
   const [products, setProducts] = useState<Product[]>([]);
   const updateData = useCallback(async () => {
-    const data = await getAllProducts().catch(() => []);
+    try {
+      const data = await getAllProducts();
 
-    setProducts(data);
-  }, [setProducts]);
+      setProducts(data);
+    } catch (e) {
+      // handle error
+    }
+  }, []);
 
   useEffect(() => {
     void updateData();

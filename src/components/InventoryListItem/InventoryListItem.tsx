@@ -7,13 +7,13 @@ interface InventoryListItemProps {
   data: InventoryItem;
   onRemove: (name: string) => void;
 }
-const InventoryListItem: FC<InventoryListItemProps> = ({ data, onRemove }) => {
-  const handleClick = useCallback(() => onRemove(data.name), [data.name, onRemove]);
+const InventoryListItem: FC<InventoryListItemProps> = ({ data: { name, quantity }, onRemove }) => {
+  const handleClick = useCallback(() => onRemove(name), [name, onRemove]);
 
   return (
     <li className={styles.wrapper}>
-      <span className={styles.left}>{data.name}</span>
-      <span className={styles.center}>{data.quantity}</span>
+      <span className={styles.left}>{name}</span>
+      <span className={styles.center}>{quantity}</span>
       <span className={styles.right}>
         <Button onClick={handleClick}>Remove</Button>
       </span>

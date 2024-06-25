@@ -10,12 +10,12 @@ const AddProductForm: FC = () => {
   const [isUpdating, setIsUpdating] = useState(false);
   const { setProducts } = useProducts();
 
-  const handleChange = useCallback((event: ChangeEvent<HTMLInputElement>) => {
-    setValue(event.target.value);
+  const handleChange = useCallback(({ target }: ChangeEvent<HTMLInputElement>) => {
+    setValue(target.value);
   }, []);
   const handleSubmit = useCallback(
-    async (event: FormEvent<HTMLFormElement>) => {
-      event.preventDefault();
+    async ({ preventDefault }: FormEvent<HTMLFormElement>) => {
+      preventDefault();
       setIsUpdating(true);
 
       try {
